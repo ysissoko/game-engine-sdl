@@ -12,10 +12,10 @@ namespace core::renderer {
 
     class Window {
         public:
-            Window(config::WindowConfig config);
+            Window(config::WindowConfig& config);
             ~Window();
 
-            static std::shared_ptr<Window> getInstance(config::WindowConfig config) {
+            static std::shared_ptr<Window> getInstance(config::WindowConfig& config) {
                 if (nullptr == instance_) {
                     instance_ = std::make_shared<Window>(config);
                 }
@@ -29,11 +29,13 @@ namespace core::renderer {
             static std::shared_ptr<Window> instance_;
             SDL_Window* window_{nullptr};
             SDL_Renderer* renderer_{nullptr};
+            config::WindowConfig config_;
 
             void prepareScene(void);
             void handleEvents(void);
             void presentScene(void);
 
-            void initWindow(config::WindowConfig config);
+            void initWindow(void);
+            
     };
 }

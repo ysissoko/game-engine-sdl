@@ -6,15 +6,15 @@
 namespace core::renderer {
     std::shared_ptr<Window> Window::instance_ = nullptr;
 
-    Window::Window(config::WindowConfig config) {
+    Window::Window(config::WindowConfig& config) : config_{config} {
         // Create a sdl window
-        initWindow(config);
+        initWindow();
     }
 
-    void Window::initWindow(config::WindowConfig config) {
-        window_ = SDL_CreateWindow(config.title.c_str(),
-                        WINDOW_X, WINDOW_Y, config.width,
-                        config.height, WINDOW_FLAGS);
+    void Window::initWindow() {
+        window_ = SDL_CreateWindow(config_.title.c_str(),
+                        WINDOW_X, WINDOW_Y, config_.width,
+                        config_.height, WINDOW_FLAGS);
 
         if (nullptr == window_)
             throw exception::WindowInitException();
@@ -23,11 +23,12 @@ namespace core::renderer {
 
         if (nullptr == renderer_) 
             throw exception::RendererInitException();
+        
     }
 
     void Window::prepareScene(void)
     {
-        SDL_SetRenderDrawColor(renderer_, 96, 128, 255, 255);
+        SDL_SetRenderDrawColor(renderer_, config_.fillColor[0], config_.fillColor[1], config_.fillColor[2], 255);
         SDL_RenderClear(renderer_);
     }
 
@@ -74,6 +75,8 @@ namespace core::renderer {
 
     Window::~Window() {
         SDL_DestroyWindow(window_);
+        SDL_DestroyRenderer(renderer_);
         window_ = nullptr;
+        renderer_ = nullptr;
     }
 }

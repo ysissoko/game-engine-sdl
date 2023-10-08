@@ -1,6 +1,7 @@
 window:
-    title: "Test app"
+    title: "Snake"
     width: 640
     height: 768
-    x: null
-    y: null
+    x: 0
+    y: 0
+    fillColor: [34, 12, 88]
